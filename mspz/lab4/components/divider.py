@@ -3,7 +3,7 @@ import tkinter as tk
 import consts
 
 def create_divider(root, width):
-  c = tk.Canvas(root, width=width, height=consts.PADDING * 2)
-  c.create_line(consts.PADDING, consts.PADDING, width - consts.PADDING, consts.PADDING)
+  c = tk.Canvas(root, width=width, height=consts.PADDING)
+  c.create_line(consts.PADDING, consts.PADDING // 2, width - consts.PADDING, consts.PADDING // 2)
 
   return c
