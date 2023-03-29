@@ -1,0 +1,47 @@
+[
+  {
+    "class": "Disk",
+    "args": {
+      "id": 0,
+      "name": "Disk A",
+      "max_size": 127365728913
+    }
+  },
+  {
+    "class": "Disk",
+    "args": {
+      "id": 1,
+      "name": "Disk B",
+      "max_size": 127365728913
+    }
+  },
+  {
+    "class": "Directory",
+    "args": {
+      "id": 2,
+      "name": "Home",
+      "creation_date": "today",
+      "location": 0
+    }
+  },
+  {
+    "class": "File",
+    "args": {
+      "id": 3,
+      "file_type": "pdf",
+      "name": "report",
+      "creation_date": "today",
+      "last_change_date": "today",
+      "size": 1245,
+      "location": 2
+    }
+  },
+  {
+    "class": "Contains",
+    "args": {
+      "id": 4,
+      "children": 3,
+      "parent": 0
+    }
+  }
+]
