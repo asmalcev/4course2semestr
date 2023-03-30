@@ -1,3 +1,6 @@
 venv
 __pycache__
 lab5
+dist
+build
+main.spec

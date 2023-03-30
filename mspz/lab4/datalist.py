@@ -1,3 +1,4 @@
+import os
 import json
 
 from frame_types import frame_types_classes_en
@@ -38,6 +39,9 @@ class Data():
     return None
 
   def read_dump(self):
+    if not os.path.exists(self.dump_filename):
+      return
+
     with open(self.dump_filename, 'r') as f:
       data = json.load(f)
 
