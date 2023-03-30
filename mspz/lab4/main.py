@@ -5,6 +5,7 @@ from components.option_list import create_option_list
 from components.button import create_button
 from components.list import create_scrollable_list
 from components.add_data_window import open_add_data_window
+from components.remove_data_window import open_remove_data_window
 
 import consts
 import prototypes
@@ -87,16 +88,14 @@ def update_list(data):
     L.insert('0.0', str(frag) + '\n')
 
 data.set_update_callback(update_list)
-
-data.append(prototypes.Disk('Disk A', 127365728913))
-data.append(prototypes.Disk('Disk B', 127365728913))
-data.append(prototypes.Directory('Home', 'today', data.data[0]))
-data.append(prototypes.File('pdf', 'report', 'today', 'today', 1245, data.data[2]))
-data.append(prototypes.Contains(data.data[3], data.data[0]))
+data.call_update_callback()
 
 
 def add_instance():
   open_add_data_window(root, 'Добавить экземпляр', data)
+
+def remove_instance():
+  open_remove_data_window(root, 'Удалить экземпляры', data)
 
 
 #
@@ -106,6 +105,10 @@ mainmenu = init_menu(root, [
   {
     'label': 'Добавление',
     'command': add_instance,
+  },
+  {
+    'label': 'Удаление',
+    'command': remove_instance,
   },
   {
     'label': 'Выйти',

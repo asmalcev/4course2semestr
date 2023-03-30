@@ -30,6 +30,11 @@ location: {}\n'\
   def toLine(self) -> str:
     return 'File - {}.{} - {}'.format(self.name, self.file_type, self.id)
 
+  def set_id(self, id):
+    global nextid
+    self.id = id
+    nextid = id + 1
+
 
 class Directory:
   def __init__(self, name, creation_date, location):
@@ -52,6 +57,11 @@ location: {}\n'\
   def toLine(self) -> str:
     return 'Directory - {} - {}'.format(self.name, self.id)
 
+  def set_id(self, id):
+    global nextid
+    self.id = id
+    nextid = id + 1
+
 
 class Disk:
   def __init__(self, name, max_size):
@@ -72,6 +82,11 @@ max_size: {}\n'\
   def toLine(self) -> str:
     return 'Disk - {} - {}'.format(self.name, self.id)
 
+  def set_id(self, id):
+    global nextid
+    self.id = id
+    nextid = id + 1
+
 
 class Contains:
   def __init__(self, children, parent):
@@ -91,3 +106,8 @@ parent: {}\n'\
 
   def toLine(self) -> str:
     return 'Contains - c:{} p:{} - {}'.format(id(self.children), id(self.children), self.id)
+
+  def set_id(self, id):
+    global nextid
+    self.id = id
+    nextid = id + 1

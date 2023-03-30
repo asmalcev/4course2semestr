@@ -12,7 +12,7 @@ def open_add_data_window(root, title, data):
   window.title(title)
   window.minsize(consts.MAIN_WINDOW_WIDTH, consts.MAIN_WINDOW_HEIGHT)
 
-  tk.Label(window, text=title)
+  tk.Label(window, text=title).pack(consts.PADDINGS)
   (frame_type, _) = create_option_list(window, 'Тип фрейма', 'Выбрать тип фрейма', list(frame_types.keys()))
 
   attrs_frame = tk.Frame(window)
@@ -62,7 +62,7 @@ def open_add_data_window(root, title, data):
         value = int(value)
 
         instance_props[current['property_name']] = data.find(lambda v: v.id == value)
-      elif current['type'] == 'entry':
+      elif current['type'] == 'text':
         instance_props[current['property_name']] = v[1]
 
     data.append(frame_types_classes[ftype](**instance_props))

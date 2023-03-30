@@ -28,9 +28,10 @@ frame_types = {
       'property_name': 'size',
     },
     {
-      'type': 'text',
+      'type': 'frame',
       'name': 'Расположение',
       'property_name': 'location',
+      'filter': lambda frame: isinstance(frame, (Directory, Disk))
     },
   ],
   'Директория': [
@@ -45,9 +46,10 @@ frame_types = {
       'property_name': 'creation_date',
     },
     {
-      'type': 'text',
+      'type': 'frame',
       'name': 'Расположение',
       'property_name': 'location',
+      'filter': lambda frame: isinstance(frame, (Directory, Disk))
     },
   ],
   'Диск': [
@@ -83,4 +85,11 @@ frame_types_classes = {
   'Директория': Directory,
   'Диск': Disk,
   'Содержит': Contains,
+}
+
+frame_types_classes_en = {
+  'File': File,
+  'Directory': Directory,
+  'Disk': Disk,
+  'Contains': Contains,
 }
