@@ -6,24 +6,31 @@ class Data():
   def __init__(self, dump_filename):
     self.data = []
     self.dump_filename = dump_filename
-    self.update_callback = []
 
     self.read_dump()
 
   def set_update_callback(self, callback):
-    self.update_callback.append(callback)
+    self.update_callback = callback
 
   def append(self, item):
     self.data.append(item)
 
-    for callback in self.update_callback:
-      callback(self)
+    if self.update_callback:
+      self.update_callback(self)
 
   def remove(self, item):
+    self.delete_deps(item)
     self.data.remove(item)
 
-    for callback in self.update_callback:
-      callback(self)
+    if self.update_callback:
+      self.update_callback(self)
+
+  def delete(self, index):
+    self.delete_deps(self.data[index])
+    del self.data[index]
+
+    if self.update_callback:
+      self.update_callback(self)
 
   def find(self, condition):
     for i in self.data:
@@ -40,12 +47,17 @@ class Data():
 
         id, args = (lambda id, **args: (id, args))(**d['args'])
 
+        is_ok = True
         for key in ['location', 'children', 'parent']:
           if key in args:
             args[key] = self.find(lambda v: v.id == args[key])
+            if not args[key]:
+              is_ok = False
+              break
 
-        self.data.append(data_class(**args))
-        self.data[-1].set_id(id)
+        if is_ok:
+          self.data.append(data_class(**args))
+          self.data[-1].set_id(id)
 
   def dump(self):
     dump = []
@@ -62,9 +74,16 @@ class Data():
 
       dump.append(data)
 
-    # with open(self.dump_filename, 'w') as f:
-      # json.dump(dump, f)
+    with open(self.dump_filename, 'w') as f:
+      json.dump(dump, f)
 
   def call_update_callback(self):
-    for callback in self.update_callback:
-      callback(self)
+    if self.update_callback:
+      self.update_callback(self)
+
+  def delete_deps(self, item):
+    for d in self.data:
+      for key in ['location', 'children', 'parent']:
+        if hasattr(d, key) and getattr(d, key) == item:
+          self.delete_deps(d)
+          self.remove(d)

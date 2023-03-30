@@ -58,7 +58,7 @@ attr_search_btn = tk.Button(attr_search_frame, text='Искать').pack(consts.
 
 
 toggle_btn_text = tk.StringVar(root)
-toggle_btn_text.set('Открыть')
+toggle_btn_text.set('Развернуть')
 
 is_attr_search_open = False
 def toggle_attr_search():
@@ -66,10 +66,10 @@ def toggle_attr_search():
 
   if is_attr_search_open:
     attr_search_frame.pack_forget()
-    toggle_btn_text.set('Открыть')
+    toggle_btn_text.set('Развернуть')
   else:
     attr_search_frame.pack(consts.PADDINGS, fill=tk.X)
-    toggle_btn_text.set('Закрыть')
+    toggle_btn_text.set('Свернуть')
 
   is_attr_search_open = not is_attr_search_open
 
