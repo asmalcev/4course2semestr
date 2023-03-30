@@ -1,4 +1,5 @@
 import tkinter as tk
+import re
 
 from components.menu import init_menu
 from components.option_list import create_option_list
@@ -9,7 +10,7 @@ from components.remove_data_window import open_remove_data_window
 
 import consts
 import prototypes
-from frame_types import frame_types
+from frame_types import frame_types, frame_types_classes
 from datalist import Data
 from utils import *
 
@@ -29,8 +30,16 @@ def destroy_root():
 
 # Универсальный поиск
 u_search_frame = tk.LabelFrame(root, text='Универсальный поиск')
-u_search_field = tk.Entry(u_search_frame).pack(consts.PADDINGS, side=tk.LEFT, fill=tk.X, expand=True)
-u_search_btn = tk.Button(u_search_frame, text='Искать').pack(consts.PADDINGS, side=tk.LEFT)
+u_search_field = tk.Entry(u_search_frame)
+u_search_field.pack(consts.PADDINGS, side=tk.LEFT, fill=tk.X, expand=True)
+
+
+def u_search_set_filter():
+  request = u_search_field.get()
+  data.set_filter(lambda frame: str(frame).find(request) > -1)
+
+
+u_search_btn = tk.Button(u_search_frame, text='Искать', command=u_search_set_filter).pack(consts.PADDINGS, side=tk.LEFT)
 
 u_search_frame.pack(consts.PADDINGS, fill=tk.X)
 
@@ -54,7 +63,51 @@ frame_type.trace('w', frame_type_change)
 
 attrs_search_frame.pack(consts.PADDINGS, fill=tk.X)
 
-attr_search_btn = tk.Button(attr_search_frame, text='Искать').pack(consts.PADDINGS, side=tk.LEFT)
+def attr_search_set_filter():
+  ftype = frame_type.get()
+
+  if not ftype in frame_types:
+    return
+
+  values = []
+  current_frame_type = frame_types[ftype]
+
+  for i in range(len(inputs_storage)):
+    value = inputs_storage[i].get()
+
+    if value:
+      values.append((current_frame_type[i], value))
+
+  instance_props = {}
+  for v in values:
+    current = v[0]
+
+    if current['type'] == 'frame':
+      m = re.search(r'\d*$', v[1])
+      value = m.group(0)
+
+      if value:
+        value = int(value)
+        instance_props[current['property_name']] = data.find(lambda v: v.id == value)
+    elif current['type'] == 'text':
+      instance_props[current['property_name']] = v[1]
+
+  def filter_func(frame):
+    is_right_frame_type = frame.__class__ == frame_types_classes[ftype]
+
+    if not is_right_frame_type:
+      return False
+
+    for prop in instance_props:
+      if repr(getattr(frame, prop)) != repr(instance_props[prop]):
+        return False
+
+    return True
+
+  data.set_filter(filter_func)
+
+
+attr_search_btn = tk.Button(attr_search_frame, text='Искать', command=attr_search_set_filter).pack(consts.PADDINGS, side=tk.LEFT)
 
 
 toggle_btn_text = tk.StringVar(root)
@@ -79,12 +132,17 @@ create_button(root, 'Поиск по атрибутам', {
 })
 
 
-(L, L_container) = create_scrollable_list(root)
+def clear_filter():
+  data.set_filter(None)
+
+L, L_container = create_scrollable_list(root)
 L_container.pack(consts.PADDINGS, side=tk.BOTTOM, fill=tk.BOTH, expand=True)
+
+tk.Button(text='Очистить фильтры', command=clear_filter).pack(side=tk.BOTTOM)
 
 def update_list(data):
   L.clear()
-  for frag in data.data:
+  for frag in data.get_filtered():
     L.insert('0.0', str(frag) + '\n')
 
 data.set_update_callback(update_list)

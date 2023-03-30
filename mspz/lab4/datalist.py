@@ -5,6 +5,8 @@ from frame_types import frame_types_classes_en
 class Data():
   def __init__(self, dump_filename):
     self.data = []
+    self.filter = None
+    self.update_callback = None
     self.dump_filename = dump_filename
 
     self.read_dump()
@@ -15,22 +17,19 @@ class Data():
   def append(self, item):
     self.data.append(item)
 
-    if self.update_callback:
-      self.update_callback(self)
+    self.call_update_callback()
 
   def remove(self, item):
     self.delete_deps(item)
     self.data.remove(item)
 
-    if self.update_callback:
-      self.update_callback(self)
+    self.call_update_callback()
 
   def delete(self, index):
     self.delete_deps(self.data[index])
     del self.data[index]
 
-    if self.update_callback:
-      self.update_callback(self)
+    self.call_update_callback()
 
   def find(self, condition):
     for i in self.data:
@@ -87,3 +86,14 @@ class Data():
         if hasattr(d, key) and getattr(d, key) == item:
           self.delete_deps(d)
           self.remove(d)
+
+  def set_filter(self, filter_func):
+    self.filter = filter_func
+    self.call_update_callback()
+
+  def get_filtered(self):
+    if self.filter:
+      return list(filter(self.filter, self.data))
+
+    return list(self.data)
+

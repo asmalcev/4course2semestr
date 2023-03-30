@@ -30,10 +30,10 @@ def open_add_data_window(root, title, data):
 
 
   def add_instance(e):
-    if not frame_type.get() in frame_types:
-      return
-
     ftype = frame_type.get()
+
+    if not ftype in frame_types:
+      return
 
     values = []
 
