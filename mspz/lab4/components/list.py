@@ -4,7 +4,7 @@ import consts
 
 class List(tk.Text):
   def __init__(self, *args):
-    tk.Text.__init__(self, *args, state='disabled')
+    tk.Text.__init__(self, *args, state='disabled', height=4)
 
   def insert(self, *args):
     self.config(state='normal')
