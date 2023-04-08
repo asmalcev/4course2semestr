@@ -159,7 +159,7 @@ def remove_instance():
 #
 # INIT MENU
 #
-mainmenu = init_menu(root, [
+edit_frames = init_menu(root, [
   {
     'label': 'Добавление',
     'command': add_instance,
@@ -168,12 +168,39 @@ mainmenu = init_menu(root, [
     'label': 'Удаление',
     'command': remove_instance,
   },
+])
+edit_instances = init_menu(root, [
+  {
+    'label': 'Добавление',
+    'command': add_instance,
+  },
+  {
+    'label': 'Удаление',
+    'command': remove_instance,
+  },
+])
+menu = init_menu(root, [
+  {
+    'type': 'nested',
+    'menu': {
+      'label': 'Фреймы',
+      'menu': edit_frames,
+    },
+  },
+    {
+    'type': 'nested',
+    'menu': {
+      'label': 'Экзмепляры',
+      'menu': edit_instances,
+    },
+  },
   {
     'label': 'Выйти',
     'command': destroy_root,
   },
 ])
-root.config(menu=mainmenu)
+
+root.config(menu=menu)
 
 
 # MAIN LOOP

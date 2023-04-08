@@ -1,9 +1,12 @@
 import tkinter as tk
 
 def init_menu(root, props):
-  mainmenu = tk.Menu(root)
+  menu = tk.Menu(root, tearoff=0)
 
   for prop in props:
-    mainmenu.add_command(prop)
+    if 'type' in prop and prop['type'] == 'nested':
+      menu.add_cascade(prop['menu'])
+    else:
+      menu.add_command(prop)
 
-  return mainmenu
+  return menu
