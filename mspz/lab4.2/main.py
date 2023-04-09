@@ -105,19 +105,15 @@ def edit_connection():
 
 
 def find():
-  node1 = sd.askstring('Поиск связности понятий', 'Введите название первого узла')
+  def action(node1):
+    def action2(node2):
+      ress = graph.find(node1, node2)
 
-  if not node1:
-    mb.showerror('Ошибка', 'Название узла не указано')
-    return
+      for res in ress:
+        mb.showinfo(res[0], '\n'.join(map(lambda p: '->'.join(p), res[1])))
 
-  node2 = sd.askstring('Поиск связности понятий', 'Введите название второго узла')
-
-  if not node2:
-    mb.showerror('Ошибка', 'Название узла не указано')
-    return
-
-  graph.find(node1, node2)
+    choices('Поиск связности понятий', graph.get_nodes(), action2, 'Выберите узел', 'Готово')
+  choices('Поиск связности понятий', graph.get_nodes(), action, 'Выберите узел', 'Готово')
 
 
 def show_graph():
@@ -164,5 +160,3 @@ graph.subscribe(toggle_file_select)
 
 # MAIN LOOP
 root.mainloop()
-
-graph.save()

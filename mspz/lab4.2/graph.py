@@ -81,14 +81,16 @@ class Graph:
 
   def find(self, node1, node2):
     if self.G.has_node(node1) and self.G.has_node(node2):
+      res = []
+
       paths = nx.all_simple_paths(self.G, node1, node2)
-      print("Поиск с учётом возможного направления связи: ")
-      print(list(paths))
-      print("Поиск без учёта возможного направления связи: ")
+      res.append(('Поиск с учётом возможного направления связи', list(paths)))
       paths = nx.all_simple_paths(self.G.to_undirected(), node1, node2)
-      print(list(paths))
+      res.append(('Поиск без учёта возможного направления связи', list(paths)))
+
+      return res
     else:
-      return 'no way'
+      return []
 
   def show(self):
     if self.G.edges:
