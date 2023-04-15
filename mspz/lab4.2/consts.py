@@ -7,3 +7,15 @@ PADDINGS = {
   'pady': PADDING,
   'padx': PADDING,
 }
+
+CONNECTION_TYPES = [
+  'Gen',
+  'Sit',
+  'Neg',
+  'Ins',
+  'Com',
+  'Corr',
+  'Fin',
+  'Cous',
+  'Pot',
+]

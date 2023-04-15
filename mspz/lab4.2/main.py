@@ -74,10 +74,16 @@ def remove_node():
 def add_connection():
   def action(node1):
     def action2(node2):
+      def action3(ctype):
+        graph.add_connection('{} ({})'.format(connection_name, ctype), node1, node2)
+
       connection_name = sd.askstring('Добавление связи', 'Введите название связи')
 
-      if connection_name:
-        graph.add_connection(connection_name, node1, node2)
+      if not connection_name:
+        mb.showerror('Добавление связи', 'У связи должно быть название')
+        return
+
+      choices('Добавление связи', consts.CONNECTION_TYPES, action3, 'Выберите тип связи', 'Готово')
 
     choices('Добавление связи', graph.get_nodes(), action2, 'Выберите узел', 'Готово')
   choices('Добавление связи', graph.get_nodes(), action, 'Выберите узел', 'Готово')
@@ -95,10 +101,16 @@ def remove_connection():
 def edit_connection():
   def action(node1):
     def action2(node2):
-      connection_name = sd.askstring('Изменение связи', 'Введите название связи')
+      def action3(ctype):
+        graph.edit_connection('{} ({})'.format(connection_name, ctype), node1, node2)
 
-      if connection_name:
-        graph.edit_connection(connection_name, node1, node2)
+      connection_name = sd.askstring('Изменение связи', 'Введите новое название связи')
+
+      if not connection_name:
+        mb.showerror('Изменение связи', 'У связи должно быть название')
+        return
+
+      choices('Изменение связи', consts.CONNECTION_TYPES, action3, 'Выберите тип связи', 'Готово')
 
     choices('Изменение связи', graph.get_nodes(), action2, 'Выберите узел', 'Готово')
   choices('Изменение связи', graph.get_nodes(), action, 'Выберите узел', 'Готово')
