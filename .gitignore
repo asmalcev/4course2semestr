@@ -1,7 +1,5 @@
 venv
 __pycache__
-lab5
 dist
 build
 main.spec
-lab4.2/*.txt
