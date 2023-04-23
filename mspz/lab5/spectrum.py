@@ -83,3 +83,4 @@ font = {
 
 font_ids = ['Z','S','B','E']
 test_ids = ['Z','S','B','E', 'r1', 'r2', 'r3', 'r4']
+test_labels = ['Z','S','B','E', 'None', 'None', 'None', 'None']
