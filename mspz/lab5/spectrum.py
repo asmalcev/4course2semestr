@@ -81,6 +81,5 @@ font = {
   ],
 }
 
-font_ids = ['Z','S','B','E']
-test_ids = ['Z','S','B','E', 'r1', 'r2', 'r3', 'r4']
-test_labels = ['Z','S','B','E', 'None', 'None', 'None', 'None']
+font_ids = ['Z','S','B','E', 'r1', 'r2', 'r3', 'r4']
+test_labels = [0, 1, 2, 3, 4, 4, 4, 4]
